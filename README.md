@@ -31,13 +31,16 @@ ids568-milestone6-kiran/
 ├── rag_pipeline.ipynb          # Part 1: RAG implementation (Jupyter notebook)
 ├── agent_controller.py         # Part 2: Multi-tool agent (Python script)
 ├── rag_evaluation_report.md    # Part 1: Evaluation report with real metrics
-├── rag_pipeline_diagram.md     # Part 1: Pipeline architecture diagram
+├── rag_pipeline_diagram.md     # Part 1: Pipeline architecture diagram (ASCII)
+├── rag_pipeline_diagram.png    # Part 1: Pipeline architecture diagram (rendered PNG)
 ├── agent_report.md             # Part 2: Agent analysis report with real traces
 ├── eval_results_real.json      # Part 1: Raw evaluation results (10 queries)
 ├── agent_traces/               # Part 2: 10 task traces (JSON)
 │   ├── task_01.json
 │   ├── task_02.json
 │   └── ... (task_03 through task_10)
+├── scripts/
+│   └── render_diagram.py       # Generates rag_pipeline_diagram.png via matplotlib
 ├── requirements.txt            # Pinned dependencies
 └── README.md                   # This file
 ```
