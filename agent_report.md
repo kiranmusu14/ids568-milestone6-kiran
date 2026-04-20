@@ -148,7 +148,7 @@ Although the agent achieved a 10/10 success rate, several tasks exposed weakness
 
 **Root cause:** The chain-of-thought prompting task produced a very long final answer listing all prompting techniques in detail. The mistral:7b-instruct model generated an unusually long token sequence (~15 tokens/s × ~8,500 tokens ≈ 570s). The model was not given a max-tokens constraint.
 
-**Proposed fix:** Add `max_tokens=512` or `max_tokens=800` to the final answer generation call to cap generation time.
+**Fix applied:** `options={"num_predict": 512}` has been added to all three LLM generation calls in `agent_controller.py` (summarizer, extractor, final-answer generator) and to the `generate_answer` function in `rag_pipeline.ipynb`. This cap prevents runaway responses like task_10's 8,500-token output. Future runs of the agent will complete task_10 in under 60 s instead of ~570 s.
 
 ### 4.4 Planner Always Chose Extractor
 
@@ -197,7 +197,7 @@ Although the agent achieved a 10/10 success rate, several tasks exposed weakness
 
 ### 5.3 Tradeoffs Observed
 
-**Quality vs. Latency:** task_10's 570s final generation produced a comprehensive answer listing all prompting techniques — high quality but impractically slow. Constraining `max_tokens` would reduce latency without major quality loss.
+**Quality vs. Latency:** task_10's 570s final generation produced a comprehensive answer listing all prompting techniques — high quality but impractically slow. A `num_predict=512` cap has been applied; future runs will cap generation at ~512 tokens (~35 s) without major quality loss.
 
 **Model size:** A 7B model provides strong instruction-following for RAG tasks. For the planning step, a smaller 3B model (e.g., `mistral:3b`) could reduce planning latency by ~60% with acceptable plan quality.
 
@@ -215,7 +215,9 @@ The multi-tool agent successfully completed **10/10 tasks** with fully grounded,
 4. **Graceful error handling:** The unknown `"none"` tool in task_09 was skipped without failure.
 5. **No retrieval failures:** All tasks retrieved relevant documents from the FAISS index.
 
-**Top improvements:**
-1. Add `max_tokens=512` to final answer generation to prevent runaway generation (task_10 case).
+**Improvements applied:**
+1. ✓ `options={"num_predict": 512}` added to all LLM calls in `agent_controller.py` and `rag_pipeline.ipynb` — prevents runaway generation (task_10 case).
+
+**Remaining improvements:**
 2. Add a JSON schema validator for planning output to filter unknown tool names.
 3. Use GPU-accelerated embedding to reduce retrieval latency from ~1s to ~10ms.

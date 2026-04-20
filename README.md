@@ -205,11 +205,9 @@ print(trace["final_answer"])
 
 4. **Corpus scope is limited** — the knowledge base contains 10 MLOps/AI documents (~3,600 words total). Queries outside this domain will result in low-confidence retrieval and potentially hallucinated answers.
 
-5. **No max-tokens cap on generation** — task_10 produced ~8,500 tokens in the final answer generation step (~570 s). Adding `max_tokens=512` to the generation call would prevent runaway responses.
+5. **LLM planner may return unknown tool names** — task_09's planner returned a `"none"` tool. The controller skips unknown tools gracefully, but adding a JSON schema validator would make this more robust.
 
-6. **LLM planner may return unknown tool names** — task_09's planner returned a `"none"` tool. The controller skips unknown tools gracefully, but adding a JSON schema validator would make this more robust.
-
-7. **No authentication or access control** — the system is designed for local/research use only, not production deployment.
+6. **No authentication or access control** — the system is designed for local/research use only, not production deployment.
 
 ---
 

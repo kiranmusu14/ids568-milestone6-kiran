@@ -356,6 +356,7 @@ class SummarizerTool:
         response = ollama.chat(
             model=self.model_name,
             messages=[{"role": "user", "content": prompt}],
+            options={"num_predict": 512},
         )
         summary = response["message"]["content"].strip()
         latency_ms = (time.time() - t0) * 1000
@@ -401,6 +402,7 @@ class ExtractorTool:
         response = ollama.chat(
             model=self.model_name,
             messages=[{"role": "user", "content": prompt}],
+            options={"num_predict": 512},
         )
         extracted = response["message"]["content"].strip()
         latency_ms = (time.time() - t0) * 1000
@@ -501,6 +503,7 @@ class AgentController:
         response = ollama.chat(
             model=self.model_name,
             messages=[{"role": "user", "content": prompt}],
+            options={"num_predict": 512},
         )
         return response["message"]["content"].strip()
 
