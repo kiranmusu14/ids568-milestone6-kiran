@@ -16,13 +16,13 @@
       "RAG Evaluation Metrics",
       "Prompt Engineering Techniques"
     ],
-    "top1_score": 0.45521754026412964,
+    "top1_score": 0.45521724224090576,
     "precision_at_3": 0.3333333333333333,
     "recall_at_3": 1.0,
-    "retrieval_ms": 3622.94,
-    "generation_s": 11.28,
-    "end_to_end_s": 14.9,
-    "answer": "RAG, or Retrieval-Augmented Generation, is a system that enhances responses by integrating retrieved evidence. It reduces hallucinations in LLM (Language Learning Model) responses by grounding answers in retrieved context, as stated in the provided context. This grounding helps ensure that the generated answers are supported by the retrieved data, thereby reducing the likelihood of hallucinations."
+    "retrieval_ms": 177.73058300000065,
+    "generation_s": 14.518672084,
+    "end_to_end_s": 14.697848375,
+    "answer": "In the provided context, Retrieval-Augmented Generation (RAG) is a method that reduces hallucinations in LLM responses by grounding the answers in retrieved evidence. This is achieved because RAG responses are based on information from a corpus of documents, rather than solely relying on the model's own knowledge."
   },
   {
     "q_num": 2,
@@ -32,22 +32,22 @@
       "doc_02"
     ],
     "retrieved_docs": [
-      "doc_03",
-      "doc_03",
-      "doc_08"
+      "doc_02",
+      "doc_02",
+      "doc_02"
     ],
     "retrieved_titles": [
-      "LLM Deployment and Serving",
-      "LLM Deployment and Serving",
-      "Monitoring ML Models in Production"
+      "Vector Databases and Similarity Search",
+      "Vector Databases and Similarity Search",
+      "Vector Databases and Similarity Search"
     ],
-    "top1_score": 0.15487855672836304,
-    "precision_at_3": 0.0,
-    "recall_at_3": 0.0,
-    "retrieval_ms": 1524.79,
-    "generation_s": 27.1,
-    "end_to_end_s": 28.62,
-    "answer": "The context provided does not contain information about FAISS or Chroma, so it's impossible to determine their differences based on this data."
+    "top1_score": 0.5287179350852966,
+    "precision_at_3": 1.0,
+    "recall_at_3": 1.0,
+    "retrieval_ms": 586.9011250000007,
+    "generation_s": 25.205007708000004,
+    "end_to_end_s": 25.797788458,
+    "answer": "The differences between FAISS and Chroma for vector search are as follows:\n\n1. FAISS is an open-source library that supports both exact and approximate nearest neighbor search, offering multiple index types including IndexFlatL2 for exact Euclidean search and IndexFlatIP for inner product (cosine similarity after normalization). It is optimal for in-memory workloads requiring low latency.\n\n2. ChromaDB, on the other hand, is a purpose-built open-source vector database with persistent storage, metadata filtering, and a simple Python API. It supports cosine and L2 distance metrics and integrates directly with LangChain and LlamaIndex. Chroma is ideal when persistence and metadata filtering are required.\n\n3. In terms of developer experience, Chroma offers a better developer experience with built-in persistence compared to FAISS. However, for most RAG prototypes, FAISS provides the best performance-to-setup-complexity ratio.\n\n4. Weaviate and Qdrant are also mentioned as alternatives, offering hybrid search combining vector similarity with BM25 keyword search (Weaviate) and HNSW-based indexing with payload filtering (Qdrant)."
   },
   {
     "q_num": 3,
@@ -66,13 +66,13 @@
       "MLOps Best Practices",
       "Transfer Learning and Parameter-Efficient Fine-tuning"
     ],
-    "top1_score": 0.5269613265991211,
+    "top1_score": 0.5269613862037659,
     "precision_at_3": 0.3333333333333333,
     "recall_at_3": 1.0,
-    "retrieval_ms": 4812.08,
-    "generation_s": 14.53,
-    "end_to_end_s": 19.34,
-    "answer": "To deploy a 7B parameter language model locally, you can use Ollama. Follow these steps mentioned in the context:\n\n1. Download Ollama from its source.\n2. Run the command `ollama pull mistral:7b-instr` to download the specific 7B model for inference."
+    "retrieval_ms": 331.1297919999987,
+    "generation_s": 6.688783915999998,
+    "end_to_end_s": 7.020754124999996,
+    "answer": "To deploy a 7B parameter language model locally, you can use Ollama. Install Ollama and pull the mistral:7b-instr model using the command `ollama pull mistral:7b-instr`."
   },
   {
     "q_num": 4,
@@ -91,13 +91,13 @@
       "RAG Evaluation Metrics",
       "Text Chunking Strategies for RAG"
     ],
-    "top1_score": 0.45945030450820923,
+    "top1_score": 0.4594503343105316,
     "precision_at_3": 0.3333333333333333,
     "recall_at_3": 1.0,
-    "retrieval_ms": 1970.43,
-    "generation_s": 9.08,
-    "end_to_end_s": 11.05,
-    "answer": "You can use Precision@k, Recall@k, Mean Reciprocal Rank (MRR), and Normalized Discounted Cumulative Gain (nDCG) to evaluate the quality of a RAG pipeline."
+    "retrieval_ms": 233.6731250000028,
+    "generation_s": 7.811424875,
+    "end_to_end_s": 8.048155832999996,
+    "answer": "For evaluating RAG pipeline quality, you can use metrics such as Precision@k, Recall@k, Mean Reciprocal Rank (MRR), and Normalized Discounted Cumulative Gain (nDCG). These metrics are used for retrieval evaluation. However, it's also important to consider generation faithfulness separately for a comprehensive assessment of the system's performance."
   },
   {
     "q_num": 5,
@@ -116,13 +116,13 @@
       "Text Chunking Strategies for RAG",
       "Text Chunking Strategies for RAG"
     ],
-    "top1_score": 0.6775047779083252,
+    "top1_score": 0.6775046586990356,
     "precision_at_3": 1.0,
     "recall_at_3": 1.0,
-    "retrieval_ms": 1686.12,
-    "generation_s": 17.03,
-    "end_to_end_s": 18.72,
-    "answer": "Fixed-size chunking with 512 characters and 100-character overlap provides a good balance for long technical documents, as stated in the context."
+    "retrieval_ms": 236.0215409999995,
+    "generation_s": 4.3576741249999955,
+    "end_to_end_s": 4.594717000000003,
+    "answer": "The best chunking strategy for long technical documents, according to the provided context, is fixed-size chunking with 512 characters and 100-character overlap."
   },
   {
     "q_num": 6,
@@ -141,13 +141,13 @@
       "Transfer Learning and Parameter-Efficient Fine-tuning",
       "LLM Deployment and Serving"
     ],
-    "top1_score": 0.5742760896682739,
+    "top1_score": 0.5742761492729187,
     "precision_at_3": 0.6666666666666666,
     "recall_at_3": 1.0,
-    "retrieval_ms": 1493.11,
-    "generation_s": 23.29,
-    "end_to_end_s": 24.79,
-    "answer": "LoRA reduces the number of trainable parameters by adding trainable low-rank decomposition matrices to frozen transformer weight matrices, where these decomposition matrices have dimensions significantly less than the original weight matrices. In the provided context, it is mentioned that if a weight matrix W has dimension d by d, LoRA represents the update as delta W equals A times B where A has dimensions d by r and B has dimensions r by d with r much less than d. This reduction in the size of trainable components leads to a significant decrease in the overall number of trainable parameters compared to full fine-tuning."
+    "retrieval_ms": 294.14320800000837,
+    "generation_s": 6.778210959000006,
+    "end_to_end_s": 7.076094707999999,
+    "answer": "LoRA reduces the number of trainable parameters by representing the update as delta W equals A times B, where A has dimensions d by r and B has dimensions r by d with r much less than d. This results in a 99 percent reduction in trainable parameters compared to full fine-tuning."
   },
   {
     "q_num": 7,
@@ -166,13 +166,13 @@
       "Monitoring ML Models in Production",
       "MLOps Best Practices"
     ],
-    "top1_score": 0.5616496205329895,
+    "top1_score": 0.5616499185562134,
     "precision_at_3": 0.6666666666666666,
     "recall_at_3": 1.0,
-    "retrieval_ms": 1468.74,
-    "generation_s": 86.48,
-    "end_to_end_s": 87.94,
-    "answer": "The key practices for reproducible ML experiments, as outlined in the provided context, include:\n\n1. Experiment tracking with tools like MLflow, Weights and Biases, or DVC to log hyperparameters, metrics, artifacts, and code versions for every training run.\n2. Pinning random seeds.\n3. Documenting hardware configurations.\n4. Version-controlling datasets."
+    "retrieval_ms": 230.0560000000047,
+    "generation_s": 12.594562208000013,
+    "end_to_end_s": 12.825816500000002,
+    "answer": "The key practices for reproducible ML experiments include:\n1. Experiment tracking with tools like MLflow, Weights and Biases, or DVC to log hyperparameters, metrics, artifacts, and code versions for every training run.\n2. Pinning random seeds.\n3. Documenting hardware configurations.\n4. Version-controlling datasets.\n5. Model versioning using model registries.\n6. Implementing Continuous Integration/Continuous Deployment (CI/CD) for ML to automate testing, training, and deployment pipelines."
   },
   {
     "q_num": 8,
@@ -191,13 +191,13 @@
       "Monitoring ML Models in Production",
       "MLOps Best Practices"
     ],
-    "top1_score": 0.6750518679618835,
+    "top1_score": 0.6750519275665283,
     "precision_at_3": 0.6666666666666666,
     "recall_at_3": 1.0,
-    "retrieval_ms": 3561.08,
-    "generation_s": 9.66,
-    "end_to_end_s": 13.22,
-    "answer": "Detection methods for data drift include population stability index (PSI), Kolmogorov-Smirnov test for continuous features, chi-squared test for categorical features, and Maximum Mean Discrepancy (MMD). Additionally, tools like Evidently AI, WhyLogs, and Great Expectations automate drift detection."
+    "retrieval_ms": 298.8189999999946,
+    "generation_s": 10.400153208000006,
+    "end_to_end_s": 10.700690125000008,
+    "answer": "To detect data drift in a deployed ML model, you can use methods such as the population stability index (PSI), Kolmogorov-Smirnov test for continuous features, chi-squared test for categorical features, and Maximum Mean Discrepancy (MMD). Additionally, tools like Evidently AI, WhyLogs, and Great Expectations can automate drift detection."
   },
   {
     "q_num": 9,
@@ -207,22 +207,22 @@
       "doc_09"
     ],
     "retrieved_docs": [
-      "doc_03",
-      "doc_03",
-      "doc_08"
+      "doc_09",
+      "doc_09",
+      "doc_09"
     ],
     "retrieved_titles": [
-      "LLM Deployment and Serving",
-      "LLM Deployment and Serving",
-      "Monitoring ML Models in Production"
+      "Sentence Embeddings and Semantic Search",
+      "Sentence Embeddings and Semantic Search",
+      "Sentence Embeddings and Semantic Search"
     ],
-    "top1_score": 0.1492958664894104,
-    "precision_at_3": 0.0,
-    "recall_at_3": 0.0,
-    "retrieval_ms": 1272.71,
-    "generation_s": 22.03,
-    "end_to_end_s": 23.3,
-    "answer": "The context does not explicitly explain how sentence embeddings capture semantic similarity. However, it mentions that Hallucination monitoring uses \"embedding similarity between retrieved context and generated responses,\" implying that these embeddings may be used to measure the semantic similarity between sentences. Without further information, the specific method of capturing semantic similarity through sentence embeddings is not clear from the provided context."
+    "top1_score": 0.6904968023300171,
+    "precision_at_3": 1.0,
+    "recall_at_3": 1.0,
+    "retrieval_ms": 265.7159589999907,
+    "generation_s": 4.971361958000003,
+    "end_to_end_s": 5.237919790999996,
+    "answer": "Sentence embeddings capture semantic similarity by mapping semantically similar sentences to nearby vectors in a continuous high-dimensional space."
   },
   {
     "q_num": 10,
@@ -244,9 +244,9 @@
     "top1_score": 0.5740107297897339,
     "precision_at_3": 1.0,
     "recall_at_3": 1.0,
-    "retrieval_ms": 1453.91,
-    "generation_s": 10.2,
-    "end_to_end_s": 11.65,
-    "answer": "Chain-of-thought (CoT) prompting encourages models to generate intermediate reasoning steps before producing a final answer. It is most effective for models with over 10B parameters, particularly on multi-step reasoning tasks, arithmetic, and logical inference. You should use it when you want the model to provide detailed step-by-step thought processes instead of direct answers."
+    "retrieval_ms": 279.5070829999986,
+    "generation_s": 8.79459779199999,
+    "end_to_end_s": 9.076426959000003,
+    "answer": "Chain-of-thought (CoT) prompting encourages models to generate intermediate reasoning steps before producing a final answer, and should be used for multi-step reasoning tasks, arithmetic, and logical inference, especially for models above 10B parameters."
   }
 ]

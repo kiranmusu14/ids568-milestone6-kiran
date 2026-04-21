@@ -2,7 +2,7 @@
   "task_id": "task_07",
   "task": "What are the best practices for reproducible ML experiments? Summarize the key recommendations for experiment tracking and versioning.",
   "model": "mistral:7b-instruct",
-  "timestamp": "2026-04-15T16:19:39",
+  "timestamp": "2026-04-21T15:03:41",
   "steps": [
     {
       "step": 0,
@@ -10,20 +10,20 @@
       "decision": [
         {
           "tool": "retriever",
-          "reason": "need context"
+          "reason": "need grounded context before summarizing"
         },
         {
-          "tool": "extractor",
-          "reason": "identify key recommendations"
+          "tool": "summarizer",
+          "reason": "task asks for a short summary rather than structured extraction"
         }
       ],
-      "latency_ms": 5432.24,
+      "latency_ms": 14047.6,
       "reasoning": "LLM selected tools based on task requirements"
     },
     {
       "step": 1,
       "tool": "retriever",
-      "reason": "need context",
+      "reason": "need grounded context before summarizing",
       "input_preview": "What are the best practices for reproducible ML experiments? Summarize the key recommendations for experiment tracking a",
       "output": {
         "tool": "retriever",
@@ -33,51 +33,52 @@
             "chunk_id": "doc_07_chunk_0",
             "doc_id": "doc_07",
             "doc_title": "MLOps Best Practices",
-            "text": "MLOps (Machine Learning Operations) encompasses practices for deploying, monitoring, and maintaining machine learning models in production. It bridges the gap between ML development and software engineering.\n\nExperiment tracking with tools like MLflow, Weights & Biases, or DVC enables reproducibility by logging hyperparameters, metrics, artifacts, and code versions for every training run. Reproducibility requires pinning random seeds, documenting hardware configurations, and version-controlling datasets.\n\nM",
-            "relevance_score": 0.5930626392364502
+            "text": "MLOps encompasses practices for deploying, monitoring, and maintaining machine learning models in production. It bridges the gap between ML development and software engineering practices.\n\nExperiment tracking with tools like MLflow, Weights and Biases, or DVC enables reproducibility by logging hyperparameters, metrics, artifacts, and code versions for every training run. Reproducibility requires pinning random seeds, documenting hardware configurations, and version-controlling datasets.\n\nModel versioning us",
+            "relevance_score": 0.6350163221359253
           },
           {
             "chunk_id": "doc_07_chunk_1",
             "doc_id": "doc_07",
             "doc_title": "MLOps Best Practices",
-            "text": "ires pinning random seeds, documenting hardware configurations, and version-controlling datasets.\n\nModel versioning using model registries enables promotion of models through development, staging, and production stages with associated metadata. Each model version should include training data lineage, evaluation metrics, and deployment constraints.\n\nCI/CD for ML automates testing, training, and deployment pipelines. Data validation tests verify schema and statistical properties. Unit tests cover preprocessin",
-            "relevance_score": 0.48697400093078613
+            "text": "m seeds, documenting hardware configurations, and version-controlling datasets.\n\nModel versioning using model registries enables promotion of models through development, staging, and production stages with associated metadata. Each model version should include training data lineage, evaluation metrics, and deployment constraints.\n\nCI/CD for ML automates testing, training, and deployment pipelines. Data validation tests verify schema and statistical properties of new data. Feature stores centralize feature c",
+            "relevance_score": 0.497577965259552
           },
           {
-            "chunk_id": "doc_08_chunk_0",
-            "doc_id": "doc_08",
-            "doc_title": "Monitoring ML Models in Production",
-            "text": "Production ML systems require continuous monitoring to detect performance degradation caused by data drift, concept drift, or infrastructure issues. Without monitoring, model quality can silently degrade.\n\nData drift occurs when the statistical distribution of input features shifts from the training distribution. Detection methods include population stability index (PSI), Kolmogorov-Smirnov test for continuous features, chi-squared test for categorical features, and Maximum Mean Discrepancy (MMD). Tools lik",
-            "relevance_score": 0.4290357828140259
+            "chunk_id": "doc_07_chunk_2",
+            "doc_id": "doc_07",
+            "doc_title": "MLOps Best Practices",
+            "text": "tion tests verify schema and statistical properties of new data. Feature stores centralize feature computation and serving, ensuring training-serving consistency. Container-based deployment with Docker ensures environment consistency between development and production. Kubernetes enables scalable serving with automatic scaling and rolling deployments.",
+            "relevance_score": 0.2559698224067688
           }
         ],
-        "latency_ms": 2077.62,
+        "latency_ms": 429.69,
         "num_results": 3
       },
-      "latency_ms": 2077.62
+      "latency_ms": 429.69
     },
     {
       "step": 2,
-      "tool": "extractor",
-      "reason": "identify key recommendations",
-      "input_preview": "MLOps (Machine Learning Operations) encompasses practices for deploying, monitoring, and maintaining machine learning mo\u2026",
+      "tool": "summarizer",
+      "reason": "task asks for a short summary rather than structured extraction",
+      "input_preview": "MLOps encompasses practices for deploying, monitoring, and maintaining machine learning models in production. It bridges\u2026",
       "output": {
-        "tool": "extractor",
-        "extraction_type": "key_facts",
-        "extracted": "1. MLOps involves practices for deploying, monitoring, and maintaining machine learning models in production, bridging the gap between ML development and software engineering.\n2. Reproducibility in experiment tracking is achieved by logging hyperparameters, metrics, artifacts, and code versions with tools like MLflow, Weights & Biases, or DVC. This also includes pinning random seeds, documenting hardware configurations, and version-controlling datasets.\n3. Model versioning using model registries allows for the promotion of models through development, staging, and production stages. Each model version should include training data lineage, evaluation metrics, and deployment constraints.\n4. CI/CD for ML automates testing, training, and deployment pipelines, with data validation tests verifying schema and statistical properties. Unit tests cover preprocessing steps and other functions.\n5. Production ML systems require continuous monitoring to detect performance degradation caused by data drift, concept drift, or infrastructure issues. Tools like population stability index (PSI), Kolmogorov-Smirnov test for continuous features, chi-squared test for categorical features, and Maximum Mean Discrepancy (MMD) are used to detect data drift.",
-        "latency_ms": 25592.86
+        "tool": "summarizer",
+        "original_word_count": 168,
+        "summary": "MLOps is a set of practices that bridge the gap between machine learning (ML) development and software engineering for managing ML models in production, including deployment, monitoring, and maintenance. Key components include experiment tracking with tools like MLflow, Weights and Biases, or DVC to ensure reproducibility by logging hyperparameters, metrics, artifacts, and code versions. Model versioning using model registries helps manage model promotions through development, staging, and production stages. CI/CD for ML automates testing, training, and deployment pipelines with data validation tests, feature stores for centralized feature computation and serving, container-based deployment with Docker for environment consistency, and scalable serving with Kubernetes' automatic scaling and rolling deployments.",
+        "summary_word_count": 107,
+        "latency_ms": 12105.63
       },
-      "latency_ms": 25592.86
+      "latency_ms": 12105.63
     },
     {
       "step": 3,
       "action": "final_answer_generation",
-      "latency_ms": 36112.06,
-      "output_preview": "Best practices for reproducible Machine Learning (ML) experiments involve the following key recommendations:\n\n1. Experiment tracking: Utilize tools like MLflow, Weights & Biases, or DVC to log hyperpa\u2026"
+      "latency_ms": 21116.8,
+      "output_preview": "The best practices for reproducible ML experiments include:\n1. Experiment tracking using tools like MLflow, Weights and Biases, or DVC to log hyperparameters, metrics, artifacts, and code versions for\u2026"
     }
   ],
-  "final_answer": "Best practices for reproducible Machine Learning (ML) experiments involve the following key recommendations:\n\n1. Experiment tracking: Utilize tools like MLflow, Weights & Biases, or DVC to log hyperparameters, metrics, artifacts, and code versions for every training run. Ensure pinning of random seeds, documentation of hardware configurations, and version-controlling datasets.\n\n2. Reproducibility: Adopt practices that promote reproducibility such as using fixed random seeds, documenting hardware configurations, and version-controlling datasets. This helps maintain consistency across different training runs.\n\n3. Model Versioning: Use model registries to manage the promotion of models through development, staging, and production stages. Each model version should include training data lineage, evaluation metrics, and deployment constraints.\n\n4. Continuous Integration/Continuous Deployment (CI/CD): Implement CI/CD pipelines to automate testing, training, and deployment processes in ML. Data validation tests verify schema and statistical properties while unit tests cover preprocessing steps and other functions.\n\n5. Monitoring: Continuously monitor production ML systems to detect performance degradation caused by data drift, concept drift, or infrastructure issues. Tools like population stability index (PSI), Kolmogorov-Smirnov test for continuous features, chi-squared test for categorical features, and Maximum Mean Discrepancy (MMD) can be used to detect data drift.",
-  "total_latency_ms": 69218.65,
+  "final_answer": "The best practices for reproducible ML experiments include:\n1. Experiment tracking using tools like MLflow, Weights and Biases, or DVC to log hyperparameters, metrics, artifacts, and code versions for every training run.\n2. Reproducibility requires pinning random seeds, documenting hardware configurations, and version-controlling datasets.\n3. Model versioning using model registries to manage model promotions through development, staging, and production stages with associated metadata. Each model version should include training data lineage, evaluation metrics, and deployment constraints.\n4. CI/CD for ML automates testing, training, and deployment pipelines with data validation tests verifying schema and statistical properties of new data, feature stores for centralized feature computation and serving, container-based deployment with Docker for environment consistency, and scalable serving with Kubernetes' automatic scaling and rolling deployments.",
+  "total_latency_ms": 47705.56,
   "success": true,
   "failure_reason": null
 }

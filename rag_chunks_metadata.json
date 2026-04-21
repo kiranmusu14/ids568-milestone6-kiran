@@ -1,0 +1,200 @@
+[
+  {
+    "chunk_id": "doc_01_chunk_0",
+    "doc_id": "doc_01",
+    "doc_title": "Retrieval-Augmented Generation (RAG)",
+    "text": "Retrieval-Augmented Generation (RAG) is an AI framework that enhances large language models by dynamically retrieving relevant information from an external knowledge base at inference time. Unlike purely parametric models that rely solely on information encoded during training, RAG systems combine neural retrieval with language model generation to produce responses grounded in factual, verifiable sources.\n\nThe RAG pipeline operates in four main stages. First, documents are ingested and split into smaller ch"
+  },
+  {
+    "chunk_id": "doc_01_chunk_1",
+    "doc_id": "doc_01",
+    "doc_title": "Retrieval-Augmented Generation (RAG)",
+    "text": "e RAG pipeline operates in four main stages. First, documents are ingested and split into smaller chunks using a chunking strategy. Second, each chunk is encoded into a dense embedding vector. Third, when a user query arrives, it is also embedded and the most relevant chunks are retrieved via vector similarity search. Fourth, the retrieved chunks are concatenated with the query, and the language model generates a grounded answer.\n\nBenefits of RAG include reduced hallucination because responses are grounded"
+  },
+  {
+    "chunk_id": "doc_01_chunk_2",
+    "doc_id": "doc_01",
+    "doc_title": "Retrieval-Augmented Generation (RAG)",
+    "text": "es a grounded answer.\n\nBenefits of RAG include reduced hallucination because responses are grounded in retrieved evidence, knowledge currency since retrieval corpora can be updated without retraining, source attribution for verifiable outputs, and cost efficiency since knowledge updates require only corpus changes. RAG is widely used for question answering over private documents, technical support, and knowledge-intensive NLP tasks.\n\nCommon failure modes include retrieval failures when relevant documents ar"
+  },
+  {
+    "chunk_id": "doc_01_chunk_3",
+    "doc_id": "doc_01",
+    "doc_title": "Retrieval-Augmented Generation (RAG)",
+    "text": "dge-intensive NLP tasks.\n\nCommon failure modes include retrieval failures when relevant documents are not retrieved, context window overflow with too many chunks, and generation errors where the LLM ignores retrieved context. Proper evaluation must measure both retrieval accuracy and generation faithfulness separately."
+  },
+  {
+    "chunk_id": "doc_02_chunk_0",
+    "doc_id": "doc_02",
+    "doc_title": "Vector Databases and Similarity Search",
+    "text": "Vector databases are specialized storage systems designed to index and query high-dimensional embedding vectors efficiently. They form the backbone of modern RAG systems by enabling fast semantic similarity search across large document collections.\n\nFAISS (Facebook AI Similarity Search) is an open-source library for efficient similarity search supporting both exact and approximate nearest neighbor search. It offers multiple index types: IndexFlatL2 for exact Euclidean search, IndexFlatIP for inner product ("
+  },
+  {
+    "chunk_id": "doc_02_chunk_1",
+    "doc_id": "doc_02",
+    "doc_title": "Vector Databases and Similarity Search",
+    "text": "offers multiple index types: IndexFlatL2 for exact Euclidean search, IndexFlatIP for inner product (cosine similarity after normalization), IndexIVFFlat for inverted file approximate search, and HNSW for graph-based approximate search. FAISS is optimal for in-memory workloads requiring low latency.\n\nChromaDB is a purpose-built open-source vector database with persistent storage, metadata filtering, and a simple Python API. It supports cosine and L2 distance metrics and integrates directly with LangChain and"
+  },
+  {
+    "chunk_id": "doc_02_chunk_2",
+    "doc_id": "doc_02",
+    "doc_title": "Vector Databases and Similarity Search",
+    "text": "le Python API. It supports cosine and L2 distance metrics and integrates directly with LangChain and LlamaIndex. Chroma is ideal when persistence and metadata filtering are required.\n\nWeaviate provides hybrid search combining vector similarity with BM25 keyword search. Qdrant offers HNSW-based indexing with payload filtering. For most RAG prototypes, FAISS provides the best performance-to-setup-complexity ratio, while Chroma offers better developer experience with built-in persistence."
+  },
+  {
+    "chunk_id": "doc_03_chunk_0",
+    "doc_id": "doc_03",
+    "doc_title": "LLM Deployment and Serving",
+    "text": "Deploying large language models for inference requires careful consideration of hardware constraints, latency requirements, and serving frameworks. Several options exist for local and self-hosted LLM inference.\n\nOllama is a lightweight tool for running open-weight models locally. It handles model downloading, quantization, and provides a REST API. Ollama supports models including Mistral, Llama, Qwen, and Gemma families. Installation is straightforward: download Ollama, then run ollama pull mistral:7b-instr"
+  },
+  {
+    "chunk_id": "doc_03_chunk_1",
+    "doc_id": "doc_03",
+    "doc_title": "LLM Deployment and Serving",
+    "text": "ma families. Installation is straightforward: download Ollama, then run ollama pull mistral:7b-instruct. The Python client allows chat completions via ollama.chat().\n\nvLLM is a high-throughput serving framework optimized for GPU inference using PagedAttention for efficient KV cache management. It achieves 10-24x higher throughput than naive implementations and supports continuous batching. vLLM is ideal for production deployments on GPU servers.\n\nHugging Face Transformers provides direct model loading using"
+  },
+  {
+    "chunk_id": "doc_03_chunk_2",
+    "doc_id": "doc_03",
+    "doc_title": "LLM Deployment and Serving",
+    "text": "roduction deployments on GPU servers.\n\nHugging Face Transformers provides direct model loading using AutoModelForCausalLM and AutoTokenizer. Text Generation Inference (TGI) is Hugging Face production serving stack supporting tensor parallelism. For 7B models on consumer hardware: Apple Silicon M-series chips can run 7B models at 10-20 tokens per second using Ollama with Metal acceleration. NVIDIA GPUs with 8GB+ VRAM achieve 50-100 tokens per second. CPU-only inference is possible but slow at 1-3 tokens per"
+  },
+  {
+    "chunk_id": "doc_03_chunk_3",
+    "doc_id": "doc_03",
+    "doc_title": "LLM Deployment and Serving",
+    "text": "B+ VRAM achieve 50-100 tokens per second. CPU-only inference is possible but slow at 1-3 tokens per second."
+  },
+  {
+    "chunk_id": "doc_04_chunk_0",
+    "doc_id": "doc_04",
+    "doc_title": "RAG Evaluation Metrics",
+    "text": "Evaluating RAG systems requires measuring both retrieval quality and generation faithfulness separately, as failures in either stage lead to poor overall performance.\n\nFor retrieval evaluation, precision@k measures the fraction of retrieved documents in the top k that are relevant. Recall@k measures the fraction of all relevant documents retrieved in the top k. Mean Reciprocal Rank (MRR) measures the average inverse rank of the first relevant document. Normalized Discounted Cumulative Gain (nDCG) accounts f"
+  },
+  {
+    "chunk_id": "doc_04_chunk_1",
+    "doc_id": "doc_04",
+    "doc_title": "RAG Evaluation Metrics",
+    "text": "inverse rank of the first relevant document. Normalized Discounted Cumulative Gain (nDCG) accounts for graded relevance and position.\n\nFor generation evaluation, RAGAS is a framework specifically designed for RAG evaluation with metrics including faithfulness (is the answer supported by retrieved context?), answer relevance, context precision, and context recall. Faithfulness is computed by checking if each claim in the generated answer is supported by the retrieved context.\n\nFor hallucination detection, co"
+  },
+  {
+    "chunk_id": "doc_04_chunk_2",
+    "doc_id": "doc_04",
+    "doc_title": "RAG Evaluation Metrics",
+    "text": "laim in the generated answer is supported by the retrieved context.\n\nFor hallucination detection, compare the generated answer against retrieved context to identify claims made without supporting evidence. BERTScore measures semantic similarity between generated and reference answers. End-to-end latency must be decomposed into embedding latency, vector search latency, and generation latency to identify bottlenecks. Typical targets are retrieval under 100ms and generation under 10 seconds."
+  },
+  {
+    "chunk_id": "doc_05_chunk_0",
+    "doc_id": "doc_05",
+    "doc_title": "Text Chunking Strategies for RAG",
+    "text": "Chunking is one of the most important design decisions in a RAG pipeline. The chunk size and overlap strategy directly affect retrieval quality by determining what information is co-located in a single retrievable unit.\n\nFixed-size character chunking splits text into segments of a specified character count with optional overlap between adjacent chunks. This approach is simple to implement and provides consistent chunk sizes. The overlap prevents important information from being split at chunk boundaries. Ty"
+  },
+  {
+    "chunk_id": "doc_05_chunk_1",
+    "doc_id": "doc_05",
+    "doc_title": "Text Chunking Strategies for RAG",
+    "text": "ent chunk sizes. The overlap prevents important information from being split at chunk boundaries. Typical parameters are 256-1024 characters with 10-20% overlap. Smaller chunks improve retrieval precision but may lack sufficient context for generation.\n\nRecursive character text splitting attempts to split on semantic boundaries (paragraphs, then sentences, then words) before falling back to character splits. This preserves natural text structure better than pure character splitting.\n\nSemantic chunking uses"
+  },
+  {
+    "chunk_id": "doc_05_chunk_2",
+    "doc_id": "doc_05",
+    "doc_title": "Text Chunking Strategies for RAG",
+    "text": "This preserves natural text structure better than pure character splitting.\n\nSemantic chunking uses embedding similarity to identify natural topic boundaries, grouping sentences that are semantically related. This produces variable-size chunks that better capture complete thoughts but is computationally expensive. For technical documents, fixed-size chunking with 512 characters and 100-character overlap provides a good balance: chunks are large enough to contain meaningful information, small enough for prec"
+  },
+  {
+    "chunk_id": "doc_05_chunk_3",
+    "doc_id": "doc_05",
+    "doc_title": "Text Chunking Strategies for RAG",
+    "text": "des a good balance: chunks are large enough to contain meaningful information, small enough for precise retrieval, and the overlap handles boundary cases."
+  },
+  {
+    "chunk_id": "doc_06_chunk_0",
+    "doc_id": "doc_06",
+    "doc_title": "Transfer Learning and Parameter-Efficient Fine-tuning",
+    "text": "Transfer learning enables reuse of pretrained model knowledge for new tasks by fine-tuning on task-specific data. For large language models, full fine-tuning is computationally expensive, leading to parameter-efficient fine-tuning (PEFT) methods.\n\nLow-Rank Adaptation (LoRA) adds trainable low-rank decomposition matrices to frozen transformer weight matrices. If a weight matrix W has dimension d by d, LoRA represents the update as delta W equals A times B where A has dimensions d by r and B has dimensions r"
+  },
+  {
+    "chunk_id": "doc_06_chunk_1",
+    "doc_id": "doc_06",
+    "doc_title": "Transfer Learning and Parameter-Efficient Fine-tuning",
+    "text": "resents the update as delta W equals A times B where A has dimensions d by r and B has dimensions r by d with r much less than d. This reduces trainable parameters by 99 percent compared to full fine-tuning while achieving comparable performance.\n\nQLoRA combines LoRA with 4-bit quantization of the base model weights. The base model is quantized to NF4 format, reducing memory by 75 percent, while LoRA adapters remain in full precision. This enables fine-tuning 7B models on a single 24GB GPU.\n\nInstruction tun"
+  },
+  {
+    "chunk_id": "doc_06_chunk_2",
+    "doc_id": "doc_06",
+    "doc_title": "Transfer Learning and Parameter-Efficient Fine-tuning",
+    "text": "remain in full precision. This enables fine-tuning 7B models on a single 24GB GPU.\n\nInstruction tuning trains models on instruction-response pairs to follow natural language instructions. Reinforcement Learning from Human Feedback (RLHF) aligns models with human preferences using a reward model. Direct Preference Optimization (DPO) achieves similar alignment without explicit reward modeling."
+  },
+  {
+    "chunk_id": "doc_07_chunk_0",
+    "doc_id": "doc_07",
+    "doc_title": "MLOps Best Practices",
+    "text": "MLOps encompasses practices for deploying, monitoring, and maintaining machine learning models in production. It bridges the gap between ML development and software engineering practices.\n\nExperiment tracking with tools like MLflow, Weights and Biases, or DVC enables reproducibility by logging hyperparameters, metrics, artifacts, and code versions for every training run. Reproducibility requires pinning random seeds, documenting hardware configurations, and version-controlling datasets.\n\nModel versioning us"
+  },
+  {
+    "chunk_id": "doc_07_chunk_1",
+    "doc_id": "doc_07",
+    "doc_title": "MLOps Best Practices",
+    "text": "m seeds, documenting hardware configurations, and version-controlling datasets.\n\nModel versioning using model registries enables promotion of models through development, staging, and production stages with associated metadata. Each model version should include training data lineage, evaluation metrics, and deployment constraints.\n\nCI/CD for ML automates testing, training, and deployment pipelines. Data validation tests verify schema and statistical properties of new data. Feature stores centralize feature c"
+  },
+  {
+    "chunk_id": "doc_07_chunk_2",
+    "doc_id": "doc_07",
+    "doc_title": "MLOps Best Practices",
+    "text": "tion tests verify schema and statistical properties of new data. Feature stores centralize feature computation and serving, ensuring training-serving consistency. Container-based deployment with Docker ensures environment consistency between development and production. Kubernetes enables scalable serving with automatic scaling and rolling deployments."
+  },
+  {
+    "chunk_id": "doc_08_chunk_0",
+    "doc_id": "doc_08",
+    "doc_title": "Monitoring ML Models in Production",
+    "text": "Production ML systems require continuous monitoring to detect performance degradation caused by data drift, concept drift, or infrastructure issues. Without monitoring, model quality can silently degrade.\n\nData drift occurs when the statistical distribution of input features shifts from the training distribution. Detection methods include population stability index (PSI), Kolmogorov-Smirnov test for continuous features, chi-squared test for categorical features, and Maximum Mean Discrepancy (MMD). Tools lik"
+  },
+  {
+    "chunk_id": "doc_08_chunk_1",
+    "doc_id": "doc_08",
+    "doc_title": "Monitoring ML Models in Production",
+    "text": "s features, chi-squared test for categorical features, and Maximum Mean Discrepancy (MMD). Tools like Evidently AI, WhyLogs, and Great Expectations automate drift detection.\n\nConcept drift occurs when the relationship between input features and target labels changes even if input distribution remains stable. This requires monitoring prediction accuracy and model performance metrics over time.\n\nFor LLM monitoring, track input and output token distributions, response latency, error rates, and user feedback si"
+  },
+  {
+    "chunk_id": "doc_08_chunk_2",
+    "doc_id": "doc_08",
+    "doc_title": "Monitoring ML Models in Production",
+    "text": "ing, track input and output token distributions, response latency, error rates, and user feedback signals. Hallucination monitoring uses embedding similarity between retrieved context and generated responses. LangSmith and Arize Phoenix provide LLM-specific observability. Alerting should use Prometheus with Grafana dashboards. Shadow mode deployment runs new model versions alongside production for safe comparison."
+  },
+  {
+    "chunk_id": "doc_09_chunk_0",
+    "doc_id": "doc_09",
+    "doc_title": "Sentence Embeddings and Semantic Search",
+    "text": "Sentence embeddings are dense vector representations that capture the semantic meaning of text in a continuous high-dimensional space. Semantically similar sentences are mapped to nearby vectors, enabling efficient semantic similarity computation.\n\nThe sentence-transformers library (SBERT) provides pretrained models optimized for sentence-level semantic similarity. Models like all-MiniLM-L6-v2 (384 dimensions, 22M parameters) offer an excellent balance of speed and quality for English text. all-mpnet-base-v"
+  },
+  {
+    "chunk_id": "doc_09_chunk_1",
+    "doc_id": "doc_09",
+    "doc_title": "Sentence Embeddings and Semantic Search",
+    "text": ", 22M parameters) offer an excellent balance of speed and quality for English text. all-mpnet-base-v2 (768 dimensions) provides higher quality.\n\nSBERT trains using a siamese network structure with contrastive learning objectives. The model encodes two sentences and optimizes cosine similarity to be high for semantically related pairs and low for unrelated pairs. This produces embeddings where cosine similarity directly reflects semantic similarity.\n\nFor semantic search, query and document embeddings are pre"
+  },
+  {
+    "chunk_id": "doc_09_chunk_2",
+    "doc_id": "doc_09",
+    "doc_title": "Sentence Embeddings and Semantic Search",
+    "text": "y directly reflects semantic similarity.\n\nFor semantic search, query and document embeddings are precomputed. At query time, the query embedding is computed and cosine similarity is measured against all document embeddings. FAISS enables sub-linear search with approximate methods for large corpora. Domain-specific embedding models often outperform general-purpose models on specialized corpora."
+  },
+  {
+    "chunk_id": "doc_10_chunk_0",
+    "doc_id": "doc_10",
+    "doc_title": "Prompt Engineering Techniques",
+    "text": "Prompt engineering is the practice of designing input prompts to elicit desired behaviors from large language models. Effective prompting can significantly improve model performance without any parameter updates.\n\nZero-shot prompting directly asks the model to perform a task without examples. Few-shot prompting includes 2-8 input-output examples in the prompt to demonstrate the desired format and behavior.\n\nChain-of-thought (CoT) prompting encourages models to generate intermediate reasoning steps before pr"
+  },
+  {
+    "chunk_id": "doc_10_chunk_1",
+    "doc_id": "doc_10",
+    "doc_title": "Prompt Engineering Techniques",
+    "text": "hain-of-thought (CoT) prompting encourages models to generate intermediate reasoning steps before producing a final answer. Adding phrases like Let us think step by step significantly improves performance on multi-step reasoning tasks, arithmetic, and logical inference. CoT is most effective for models above 10B parameters.\n\nSelf-consistency sampling runs the model multiple times with temperature above 0 and takes the majority vote among generated answers. This improves CoT accuracy by 10-20 percent at the"
+  },
+  {
+    "chunk_id": "doc_10_chunk_2",
+    "doc_id": "doc_10",
+    "doc_title": "Prompt Engineering Techniques",
+    "text": "takes the majority vote among generated answers. This improves CoT accuracy by 10-20 percent at the cost of multiple inference calls. System prompts establish the model persona, constraints, and behavior. For RAG prompts, explicitly instructing the model to answer only from provided context reduces hallucination. Including an if the context does not contain this information say so instruction improves groundedness."
+  }
+]

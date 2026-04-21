@@ -1,252 +1,166 @@
-# IDS 568 — Milestone 6: RAG & Agentic Pipeline
+# IDS 568 — Milestone 6: RAG Pipeline and Multi-Tool Agent
 
-MLOps Course | Module 7
+This submission contains:
 
----
+- Part 1: a small local RAG pipeline over 10 MLOps / LLM documents
+- Part 2: a multi-tool agent with observable planning and saved task traces
 
-## Architecture Overview
+The repository has been cleaned for accuracy and consistency. Claims below are aligned to the current saved artifacts:
+
+- Part 1 raw results: `eval_results_real.json`
+- Part 2 required traces: `agent_traces/task_01.json` through `agent_traces/task_10.json`
+- Supplementary routing demos: `agent_traces/task_11_supplementary.json`, `agent_traces/task_12_supplementary.json`
 
 ![RAG Pipeline Architecture](rag_pipeline_diagram.png)
 
-*Full annotated diagram — see [`rag_pipeline_diagram.md`](rag_pipeline_diagram.md) for ASCII version and component details.*
-
-```
-Part 1 — RAG Pipeline                Part 2 — Multi-Tool Agent
-─────────────────────────────────    ──────────────────────────────────
-Documents → Chunker → Embedder       Task → LLM Planner → Tool Plan
-         → FAISS Index               → [Retriever | Summarizer | Extractor]
-         → Retriever                 → Final Answer Generator
-         → LLM Generator             → Trace saved to agent_traces/
-         → Grounded Answer
-```
-
-Both components share the same FAISS index and embedding model. The agent's retriever tool reuses the RAG Part 1 retriever directly.
-
----
-
-## Repository Structure
-
-```
-ids568-milestone6-kiran/
-├── rag_pipeline.ipynb          # Part 1: RAG implementation (Jupyter notebook)
-├── agent_controller.py         # Part 2: Multi-tool agent (Python script)
-├── rag_evaluation_report.md    # Part 1: Evaluation report with real metrics
-├── rag_pipeline_diagram.md     # Part 1: Pipeline architecture diagram (ASCII)
-├── rag_pipeline_diagram.png    # Part 1: Pipeline architecture diagram (rendered PNG)
-├── agent_report.md             # Part 2: Agent analysis report with real traces
-├── eval_results_real.json      # Part 1: Raw evaluation results (10 queries)
-├── agent_traces/               # Part 2: 10 task traces (JSON)
-│   ├── task_01.json
-│   ├── task_02.json
-│   └── ... (task_03 through task_10)
-├── scripts/
-│   └── render_diagram.py       # Generates rag_pipeline_diagram.png via matplotlib
-├── requirements.txt            # Pinned dependencies
-└── README.md                   # This file
-```
-
----
-
-## Model Information
-
-| Parameter | Value |
-|-----------|-------|
-| **Model name** | mistral:7b-instruct |
-| **Size class** | 7B parameters |
-| **Quantisation** | 4-bit (Q4_0, via Ollama) |
-| **Serving stack** | Ollama 0.20.7 |
-| **Embedding model** | sentence-transformers/all-MiniLM-L6-v2 |
-| **Hardware (evaluation)** | Apple M2 Pro, 16 GB RAM |
-| **Typical generation latency** | 5–36 s per response (~15 tokens/s on M2) |
-
----
-
-## Setup Instructions
-
-### Step 1 — Prerequisites
-
-**Install Ollama** (required for LLM inference):
-```bash
-# macOS
-brew install ollama
-
-# Linux
-curl -fsSL https://ollama.ai/install.sh | sh
-```
-
-**Pull the required model:**
-```bash
-ollama pull mistral:7b-instruct
-```
-
-Verify Ollama is running:
-```bash
-ollama list        # should show mistral:7b-instruct
-ollama run mistral:7b-instruct "Hello"   # quick sanity check
-```
-
-### Step 2 — Python Environment
-
-```bash
-# Create virtual environment (Python 3.9+)
-python3 -m venv venv
-source venv/bin/activate          # macOS / Linux
-# venv\Scripts\activate.bat       # Windows
-
-# Install dependencies
-pip install -r requirements.txt
-```
-
-Verify key packages:
-```bash
-python -c "import faiss; print('FAISS OK')"
-python -c "from sentence_transformers import SentenceTransformer; print('ST OK')"
-python -c "import ollama; print('Ollama client OK')"
-```
-
-### Step 3 — Start Ollama Server
-
-```bash
-# In a separate terminal (or run as background service)
-ollama serve
-
-# Confirm the server is reachable
-curl http://localhost:11434/api/tags
-```
-
----
-
-## Usage Examples
-
-### Part 1 — RAG Pipeline (Notebook)
-
-```bash
-# Launch Jupyter
-jupyter notebook rag_pipeline.ipynb
-```
-
-Run cells in order:
-1. **Environment Setup** — installs/verifies packages
-2. **Document Corpus** — loads 10 MLOps domain documents
-3. **Chunking** — splits documents (512 chars, 100 overlap)
-4. **Embedding + FAISS** — builds vector index
-5. **Retrieval** — demonstrates top-k search
-6. **LLM Integration** — tests Ollama connection
-7. **Full RAG Pipeline** — end-to-end query execution
-8. **Evaluation** — runs 10 queries, computes P@3, R@3, latency
-
-To run a single query after building the index:
-```python
-result = rag_pipeline("What is RAG and how does it reduce hallucinations?")
-print(result["answer"])
-print(f"Retrieval: {result['latencies']['retrieval_ms']:.1f} ms")
-print(f"Generation: {result['latencies']['generation_ms']/1000:.1f} s")
-```
-
-### Part 2 — Agent Controller (Script)
-
-Run all 10 evaluation tasks and save traces:
-```bash
-python agent_controller.py
-```
-
-Run with a specific model:
-```bash
-python agent_controller.py --model mistral:7b-instruct
-```
-
-Run a single task by ID:
-```bash
-python agent_controller.py --task-id task_01
-```
-
-Import and use programmatically:
-```python
-from agent_controller import AgentController, build_rag_components, EVAL_TASKS
-
-retriever, summarizer, extractor = build_rag_components()
-agent = AgentController(retriever, summarizer, extractor,
-                        model_name="mistral:7b-instruct", verbose=True)
-
-trace = agent.run_task(
-    task="Explain the benefits of LoRA for fine-tuning LLMs.",
-    task_id="custom_01"
-)
-print(trace["final_answer"])
-```
-
----
-
-## Key Results
+## What Is Implemented
 
 ### Part 1 — RAG Pipeline
 
-| Metric | Value |
-|--------|-------|
-| Hit Rate@3 (doc-level) | **0.80** — 8/10 queries retrieved ground-truth doc in top-3 (Q2 and Q9 failed) |
-| Hit Rate@1 (doc-level) | **0.70** — 7/10 queries ranked ground-truth doc first |
-| Precision@3 (chunk-level avg) | **0.500** |
-| Recall@3 (doc-level avg) | **0.800** |
-| Mean retrieval latency | **2,287 ms** (CPU embedding dominates; FAISS search < 1 ms) |
-| Mean generation latency | **23.1 s** |
-| Mean end-to-end latency | **25.4 s** |
+- Runnable script path: `rag_pipeline.py`
+- Document ingestion from an in-notebook corpus of 10 domain documents
+- Fixed-size chunking with 512-character chunks and 100-character overlap
+- Dense embeddings with `sentence-transformers/all-MiniLM-L6-v2`
+- FAISS `IndexFlatIP` vector search
+- Grounded generation via local Ollama using `mistral:7b-instruct`
+- Evaluation on 10 handcrafted queries with saved `precision@3`, `recall@3`, retrieval latency, generation latency, and answers
 
 ### Part 2 — Multi-Tool Agent
 
-| Metric | Value |
-|--------|-------|
-| Task success rate | **10/10** |
-| Tool plan (all tasks) | Retriever → Extractor → Final Answer Generator |
-| Typical task time | 46–113 s |
-| Outlier (task_10) | 609 s — chain-of-thought generation was ~8,500 tokens |
+- Tools: `retriever`, `summarizer`, `extractor`
+- Observable planning step saved in each trace
+- 10 required multi-step task traces
+- Real supplementary traces showing additional routing patterns
 
----
+## Shared Retrieval Reuse
 
-## Known Limitations
+The agent now performs real Part 1 index reuse.
 
-1. **Ollama required at runtime** — the LLM server must be running locally. The system does not fall back to a smaller model if Ollama is unavailable.
+- The shared FAISS index is stored in `rag_index.faiss`.
+- Chunk metadata aligned to that index is stored in `rag_chunks_metadata.json`.
+- `agent_controller.py` loads those persisted artifacts instead of rebuilding a fresh runtime-only index when they are present.
+- If the saved artifacts are missing, the agent rebuilds them from the Part 1 notebook corpus and saves them back to disk.
 
-2. **CPU inference is slow** — on CPU-only machines, generation takes 30–120 s per response. Apple Silicon (M-series) with Metal acceleration is recommended (5–36 s). For fast inference, use a GPU with vLLM.
+This is a stronger and more truthful form of reuse than the earlier README/report wording.
 
-3. **In-memory FAISS index** — the vector index is rebuilt every time the script or notebook runs. Persistence via `faiss.write_index()` is implemented in the notebook but optional.
+## Repository Structure
 
-4. **Corpus scope is limited** — the knowledge base contains 10 MLOps/AI documents (~3,600 words total). Queries outside this domain will result in low-confidence retrieval and potentially hallucinated answers.
+```text
+ids568-milestone6-kiran/
+├── README.md
+├── rag_pipeline.ipynb
+├── rag_pipeline.py
+├── rag_evaluation_report.md
+├── rag_pipeline_diagram.md
+├── rag_pipeline_diagram.png
+├── rag_evaluation_charts.png
+├── eval_results_real.json
+├── rag_index.faiss
+├── rag_chunks_metadata.json
+├── agent_controller.py
+├── agent_report.md
+├── requirements.txt
+├── scripts/
+│   └── render_diagram.py
+└── agent_traces/
+    ├── task_01.json
+    ├── task_02.json
+    ├── task_03.json
+    ├── task_04.json
+    ├── task_05.json
+    ├── task_06.json
+    ├── task_07.json
+    ├── task_08.json
+    ├── task_09.json
+    ├── task_10.json
+    ├── task_11_supplementary.json
+    └── task_12_supplementary.json
+```
 
-5. **LLM planner may return unknown tool names** — task_09's planner returned a `"none"` tool. The controller skips unknown tools gracefully, but adding a JSON schema validator would make this more robust.
+## Setup
 
-6. **No authentication or access control** — the system is designed for local/research use only, not production deployment.
-
----
-
-## Exact Model Startup Commands
+### 1. Python environment
 
 ```bash
-# 1. Start Ollama service (if not running as a daemon)
-ollama serve &
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
 
-# 2. Pull the model (first time only, ~4 GB download)
+### 2. Ollama
+
+```bash
+ollama serve
 ollama pull mistral:7b-instruct
+```
 
-# 3. Verify the model is ready
-ollama run mistral:7b-instruct "Say hello in one sentence."
+### 3. Run the artifacts
 
-# 4. Run the RAG notebook
+```bash
 jupyter notebook rag_pipeline.ipynb
-
-# 5. Run the agent controller
+python rag_pipeline.py --query "What is RAG?"
+python rag_pipeline.py --summary-from-existing eval_results_real.json
 python agent_controller.py
 ```
 
----
+To recompute the full Part 1 evaluation with real Ollama generation:
 
-## Hardware / Runtime Environment (Evaluation)
+```bash
+python rag_pipeline.py --evaluate --output-json eval_results_recomputed.json
+```
 
-| Setting | Value |
-|---------|-------|
-| OS | macOS (Darwin 25.4.0) |
-| CPU | Apple M2 Pro 10-core |
-| Memory | 16 GB unified |
-| Storage | NVMe SSD |
-| Python | 3.9.6 |
-| Ollama | 0.20.7 |
-| Metal acceleration | Enabled (Ollama default on Apple Silicon) |
+## Part 1 Results
+
+These values are taken directly from `eval_results_real.json`.
+
+| Metric | Value |
+|---|---:|
+| Hit Rate@3 | 1.00 |
+| Hit Rate@1 | 0.90 |
+| Precision@3 | 0.700 |
+| Recall@3 | 1.000 |
+| Mean retrieval latency | 293.4 ms |
+| Mean generation latency | 10.2 s |
+| Mean end-to-end latency | 10.5 s |
+
+Notable observed issue in the saved Part 1 answers:
+
+- Q3 contains a truncated `ollama pull mistral:7b-instr` command (chunking artifact — the full command spans a chunk boundary).
+
+See [rag_evaluation_report.md](/Users/kiran14/Documents/IDS%20568/IDS-milstone6/ids568-milestone6-kiran/rag_evaluation_report.md) for the full evidence-based writeup.
+
+## Part 2 Results
+
+The required 10 tasks all completed without runtime failure.
+
+- Runtime completion rate: 10/10
+- Routing in the required set: `retriever -> extractor` (7/10), `retriever -> summarizer` (3/10 — task_01, task_07, task_08), `retriever -> extractor -> extractor` (task_02)
+- All 10 traces have fresh timestamps from the current code version
+
+Supplementary traces:
+
+- `task_11_supplementary.json`: real `retriever -> summarizer` path, but retrieval quality is weak, so it is useful mainly as routing evidence
+- `task_12_supplementary.json`: real retriever-only quote task with a clean direct quote answer
+
+See [agent_report.md](/Users/kiran14/Documents/IDS%20568/IDS-milstone6/ids568-milestone6-kiran/agent_report.md) for the detailed analysis.
+
+## Notebook Status
+
+`rag_pipeline.ipynb` was cleaned to remove the broken absolute-path install command and to document the Ollama dependency clearly. A matching repo-root CLI path is also provided in `rag_pipeline.py`.
+
+- The install step is now portable: `%pip install -r requirements.txt`
+- The notebook source uses repo-relative paths only
+- The stale Metal out-of-memory text was removed from the saved evaluation output
+- The script path uses the same Part 1 corpus, chunking strategy, embedding model, and shared FAISS artifacts
+- The notebook has now been rerun successfully from a clean Jupyter execution path in this repo
+
+Current note:
+
+- `eval_results_real.json` is the authoritative saved Part 1 evaluation artifact because it was regenerated by the notebook rerun
+
+## Submission Notes
+
+This repo now satisfies the structural rubric requirements for both parts, but the submission stays conservative about answer correctness.
+
+- Part 1 is supported by a working pipeline design, saved raw evaluation JSON, a diagram, and a written report
+- Part 2 is supported by a real 3-tool controller, 10 required traces, explicit planning output, and an honest routing/limitation discussion

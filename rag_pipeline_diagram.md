@@ -29,7 +29,7 @@ ASCII reference diagram below.*
                        │  • Model : sentence-transformers/all-MiniLM-L6-v2  │
                        │  • Dim   : 384 floats per chunk                     │
                        │  • Norm  : L2 normalise → cosine similarity via IP  │
-                       │  • Batch : 32 chunks per forward pass               │
+                       │  • Batch : sequential encode path for stability      │
                        └─────────────────────┬───────────────────────────────┘
                                              │  embeddings [N × 384]
                                              ▼
@@ -50,9 +50,9 @@ ASCII reference diagram below.*
       ▼
   ┌────────────────────────────────────────┐
   │  QUERY EMBEDDER                        │
-  │  Same all-MiniLM-L6-v2 model          │
+  │  Same all-MiniLM-L6-v2 model           │
   │  → 384-dim vector, L2-normalised       │
-  │  Latency: ~500 ms on CPU (encoding)   │
+  │  Latency: ~0.2–0.8 s incl. encoding    │
   └──────────────────┬─────────────────────┘
                      │  query_vec [1 × 384]
                      ▼
@@ -73,12 +73,12 @@ ASCII reference diagram below.*
                      │  formatted_prompt
                      ▼
   ┌────────────────────────────────────────┐
-  │  GENERATOR  (Ollama / mistral:7b-inst) │
+  │  GENERATOR  (Ollama / mistral:7b-instruct) │
   │  • Instruction: answer from context   │
   │  • Instruction: say "I don't know"    │
   │    if context is insufficient         │
-  │  • Temp : default (Ollama, ~0.8)      │
-  │  • Latency: 5–36 s on Apple Silicon   │
+  │  • num_predict capped at 512 tokens    │
+  │  • Latency: ~5–17 s in saved rerun     │
   └──────────────────┬─────────────────────┘
                      │  grounded_answer + latency
                      ▼
@@ -94,7 +94,7 @@ ASCII reference diagram below.*
   Embedder        sentence-transformers 2.7.0     Dense vector representation
   Vector Store    FAISS 1.8.0 IndexFlatIP         Similarity search index
   Retriever       FAISS search + metadata lookup  Returns top-k relevant chunks
-  Generator       Ollama 0.20.7 + mistral:7b-inst  Grounded answer generation
+  Generator       Ollama + mistral:7b-instruct     Grounded answer generation
   Evaluator       Custom metrics (P@k, R@k)       Measures retrieval + grounding
 
 

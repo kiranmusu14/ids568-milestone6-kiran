@@ -2,7 +2,7 @@
   "task_id": "task_08",
   "task": "How do I detect data drift in a production ML model? Find relevant information and summarize the detection approaches and tools.",
   "model": "mistral:7b-instruct",
-  "timestamp": "2026-04-15T16:20:48",
+  "timestamp": "2026-04-21T15:04:50",
   "steps": [
     {
       "step": 0,
@@ -10,20 +10,20 @@
       "decision": [
         {
           "tool": "retriever",
-          "reason": "need context"
+          "reason": "need grounded context before summarizing"
         },
         {
-          "tool": "extractor",
-          "reason": "find detection approaches"
+          "tool": "summarizer",
+          "reason": "task asks for a short summary rather than structured extraction"
         }
       ],
-      "latency_ms": 6999.56,
+      "latency_ms": 9769.12,
       "reasoning": "LLM selected tools based on task requirements"
     },
     {
       "step": 1,
       "tool": "retriever",
-      "reason": "need context",
+      "reason": "need grounded context before summarizing",
       "input_preview": "How do I detect data drift in a production ML model? Find relevant information and summarize the detection approaches an",
       "output": {
         "tool": "retriever",
@@ -34,50 +34,51 @@
             "doc_id": "doc_08",
             "doc_title": "Monitoring ML Models in Production",
             "text": "Production ML systems require continuous monitoring to detect performance degradation caused by data drift, concept drift, or infrastructure issues. Without monitoring, model quality can silently degrade.\n\nData drift occurs when the statistical distribution of input features shifts from the training distribution. Detection methods include population stability index (PSI), Kolmogorov-Smirnov test for continuous features, chi-squared test for categorical features, and Maximum Mean Discrepancy (MMD). Tools lik",
-            "relevance_score": 0.7387365102767944
+            "relevance_score": 0.7387365698814392
           },
           {
             "chunk_id": "doc_08_chunk_1",
             "doc_id": "doc_08",
             "doc_title": "Monitoring ML Models in Production",
-            "text": "s features, chi-squared test for categorical features, and Maximum Mean Discrepancy (MMD). Tools like Evidently AI, WhyLogs, and Great Expectations automate drift detection.\n\nConcept drift occurs when the relationship between input features and target labels changes even if input distribution remains stable. This requires monitoring prediction accuracy and, when ground truth is available, model performance metrics over time.\n\nFor LLM monitoring, track input and output token distributions, response latency,",
-            "relevance_score": 0.5885249972343445
+            "text": "s features, chi-squared test for categorical features, and Maximum Mean Discrepancy (MMD). Tools like Evidently AI, WhyLogs, and Great Expectations automate drift detection.\n\nConcept drift occurs when the relationship between input features and target labels changes even if input distribution remains stable. This requires monitoring prediction accuracy and model performance metrics over time.\n\nFor LLM monitoring, track input and output token distributions, response latency, error rates, and user feedback si",
+            "relevance_score": 0.5732637643814087
           },
           {
-            "chunk_id": "doc_07_chunk_0",
-            "doc_id": "doc_07",
-            "doc_title": "MLOps Best Practices",
-            "text": "MLOps (Machine Learning Operations) encompasses practices for deploying, monitoring, and maintaining machine learning models in production. It bridges the gap between ML development and software engineering.\n\nExperiment tracking with tools like MLflow, Weights & Biases, or DVC enables reproducibility by logging hyperparameters, metrics, artifacts, and code versions for every training run. Reproducibility requires pinning random seeds, documenting hardware configurations, and version-controlling datasets.\n\nM",
-            "relevance_score": 0.49876120686531067
+            "chunk_id": "doc_08_chunk_2",
+            "doc_id": "doc_08",
+            "doc_title": "Monitoring ML Models in Production",
+            "text": "ing, track input and output token distributions, response latency, error rates, and user feedback signals. Hallucination monitoring uses embedding similarity between retrieved context and generated responses. LangSmith and Arize Phoenix provide LLM-specific observability. Alerting should use Prometheus with Grafana dashboards. Shadow mode deployment runs new model versions alongside production for safe comparison.",
+            "relevance_score": 0.3074701130390167
           }
         ],
-        "latency_ms": 1981.39,
+        "latency_ms": 643.46,
         "num_results": 3
       },
-      "latency_ms": 1981.39
+      "latency_ms": 643.46
     },
     {
       "step": 2,
-      "tool": "extractor",
-      "reason": "find detection approaches",
+      "tool": "summarizer",
+      "reason": "task asks for a short summary rather than structured extraction",
       "input_preview": "Production ML systems require continuous monitoring to detect performance degradation caused by data drift, concept drif\u2026",
       "output": {
-        "tool": "extractor",
-        "extraction_type": "key_facts",
-        "extracted": "1. Production Machine Learning (ML) systems need continuous monitoring to detect performance degradation due to data drift, concept drift, or infrastructure issues.\n2. Data drift occurs when the statistical distribution of input features shifts from the training distribution and can be detected using methods like population stability index (PSI), Kolmogorov-Smirnov test for continuous features, chi-squared test for categorical features, and Maximum Mean Discrepancy (MMD). Tools like Evidently AI, WhyLogs, and Great Expectations can automate drift detection.\n3. Concept drift occurs when the relationship between input features and target labels changes even if the input distribution remains stable. It requires monitoring prediction accuracy and, when ground truth is available, model performance metrics over time.\n4. MLOps (Machine Learning Operations) encompasses practices for deploying, monitoring, and maintaining ML models in production. It bridges the gap between ML development and software engineering.\n5. Experiment tracking with tools like MLflow, Weights & Biases, or DVC enables reproducibility by logging hyperparameters, metrics, artifacts, and code versions for every training run. Reproducibility requires pinning random seeds, documenting hardware configurations, and version-controlling datasets.",
-        "latency_ms": 33221.55
+        "tool": "summarizer",
+        "original_word_count": 187,
+        "summary": "Monitoring is crucial in Production Machine Learning (ML) systems to detect performance degradation due to data drift, concept drift, or infrastructure issues. Data drift involves a shift in the statistical distribution of input features from the training distribution. Detection methods include the Population Stability Index (PSI), Kolmogorov-Smirnov test for continuous features, chi-squared test for categorical features, and Maximum Mean Discrepancy (MMD). Tools like Evidently AI, WhyLogs, and Great Expectations automate drift detection.\n\nConcept drift occurs when the relationship between input features and target labels changes even if input distribution remains stable. It requires monitoring prediction accuracy and model performance metrics over time.\n\nFor Language Model (LLM) monitoring, tracking input and output token distributions, response latency, error rates, and user feedback is essential. Hallucination monitoring uses embedding similarity between retrieved context and generated responses. Tools like LangSmith and Arize Phoenix offer LLM-specific observability. Alerting should use Prometheus with Grafana dashboards. Lastly, a safe comparison can be made using the shadow mode deployment that runs new model versions alongside production.",
+        "summary_word_count": 168,
+        "latency_ms": 23528.2
       },
-      "latency_ms": 33221.55
+      "latency_ms": 23528.2
     },
     {
       "step": 3,
       "action": "final_answer_generation",
-      "latency_ms": 36336.4,
-      "output_preview": "To detect data drift in a production ML model, you can use various methods and tools. Here are the key approaches and tools mentioned in the provided sources:\n\n1. Data Drift Detection Methods:\n   - Po\u2026"
+      "latency_ms": 20696.89,
+      "output_preview": "To detect data drift in a production ML model, you can employ various detection methods such as the Population Stability Index (PSI), Kolmogorov-Smirnov test for continuous features, chi-squared test \u2026"
     }
   ],
-  "final_answer": "To detect data drift in a production ML model, you can use various methods and tools. Here are the key approaches and tools mentioned in the provided sources:\n\n1. Data Drift Detection Methods:\n   - Population Stability Index (PSI)\n   - Kolmogorov-Smirnov test for continuous features\n   - Chi-squared test for categorical features\n   - Maximum Mean Discrepancy (MMD)\n\n2. Tools for Automating Drift Detection:\n   - Evidently AI\n   - WhyLogs\n   - Great Expectations\n\n3. Concept Drift Detection:\nMonitor prediction accuracy and model performance metrics over time, as concept drift occurs when the relationship between input features and target labels changes even if the input distribution remains stable.\n\n4. MLOps Practices (Machine Learning Operations):\nMLOps encompasses practices for deploying, monitoring, and maintaining ML models in production, bridging the gap between ML development and software engineering. Tools for experiment tracking include:\n   - MLflow\n   - Weights & Biases\n   - DVC\n\nReproducibility requires pinning random seeds, documenting hardware configurations, and version-controlling datasets. These practices can help ensure the consistent performance of your models.",
-  "total_latency_ms": 78542.16,
+  "final_answer": "To detect data drift in a production ML model, you can employ various detection methods such as the Population Stability Index (PSI), Kolmogorov-Smirnov test for continuous features, chi-squared test for categorical features, and Maximum Mean Discrepancy (MMD). Tools like Evidently AI, WhyLogs, and Great Expectations can automate these drift detection processes.\n\nIn the case of a Language Model (LLM), tracking input and output token distributions, response latency, error rates, and user feedback is essential. Hallucination monitoring uses embedding similarity between retrieved context and generated responses. Tools like LangSmith and Arize Phoenix offer LLM-specific observability. Alerting should use Prometheus with Grafana dashboards for effective monitoring. Lastly, the shadow mode deployment that runs new model versions alongside production can be used for a safe comparison.",
+  "total_latency_ms": 54646.55,
   "success": true,
   "failure_reason": null
 }
