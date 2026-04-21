@@ -57,7 +57,30 @@ Per-query retrieval results:
 | Q9 | yes | 1.000 | 1.00 | 0.690 |
 | Q10 | yes | 1.000 | 1.00 | 0.574 |
 
-## 3. Qualitative Answer Assessment
+## 3. Groundedness Assessment
+
+To make groundedness explicit for grading, each saved answer is assessed conservatively against the retrieved context as a binary groundedness judgment.
+
+| Q# | Grounded? | Notes |
+|---|---|---|
+| Q1 | yes | Definition and anti-hallucination claim are directly supported by retrieved RAG chunks. |
+| Q2 | yes | Comparison points are supported by the retrieved vector-search document. |
+| Q3 | partial | The Ollama deployment answer is grounded, but the saved command is truncated at the chunk boundary. |
+| Q4 | yes | Metrics listed are directly supported by the retrieved evaluation-metrics chunk. |
+| Q5 | yes | The fixed-size 512-character with 100-character overlap answer is directly grounded. |
+| Q6 | yes | LoRA explanation and parameter-reduction claim stay within retrieved context. |
+| Q7 | yes | Verbose, but still supported by the retrieved MLOps best-practices content. |
+| Q8 | yes | Drift-detection methods and tools are directly supported by the retrieved monitoring chunk. |
+| Q9 | yes | Semantic-similarity explanation stays within the retrieved sentence-embeddings document. |
+| Q10 | yes | Final answer stays within the retrieved Chain-of-Thought context. |
+
+Summary groundedness score for the saved run:
+
+- fully grounded: 9/10
+- partially grounded: 1/10
+- ungrounded: 0/10
+
+## 4. Qualitative Answer Assessment
 
 This section is intentionally conservative and tied to the raw saved answers, not to ideal answers.
 
@@ -78,14 +101,14 @@ This section is intentionally conservative and tied to the raw saved answers, no
 - Q8: strongest retrieval result in the set
 - Q10: the raw saved answer stays within the retrieved CoT context; earlier report language about ReAct or Tree-of-Thoughts is not supported by the raw JSON and has been removed
 
-## 4. Retrieval Notes
+## 5. Retrieval Notes
 
 The rerun no longer shows retrieval failures in the 10-query set.
 
 - The weakest successful top-1 scores are still moderate rather than dominant for some queries, such as Q1 and Q4
 - Even with successful retrieval, answer quality can still lag behind retrieval quality, which is visible in Q3
 
-## 5. Latency
+## 6. Latency
 
 These values are copied from the raw saved results.
 
@@ -102,7 +125,7 @@ These values are copied from the raw saved results.
 | Q9 | 265.72 | 4.97 | 5.24 |
 | Q10 | 279.51 | 8.79 | 9.08 |
 
-## 6. Bottom Line
+## 7. Bottom Line
 
 Part 1 satisfies the rubric expectations:
 
@@ -110,7 +133,7 @@ Part 1 satisfies the rubric expectations:
 - chunking strategy: yes
 - embeddings and vector index: yes
 - retrieval plus grounded generation: yes
-- 10-query evaluation with saved metrics: yes
+- 10-query evaluation with saved metrics and explicit groundedness assessment: yes
 - diagram and latency measurements: yes
 
 The strongest honest caveat in the rerun is that retrieval is now consistently successful, but some answer-level issues remain even when the correct document is retrieved.

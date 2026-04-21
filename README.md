@@ -23,7 +23,7 @@ The repository has been cleaned for accuracy and consistency. Claims below are a
 - Dense embeddings with `sentence-transformers/all-MiniLM-L6-v2`
 - FAISS `IndexFlatIP` vector search
 - Grounded generation via local Ollama using `mistral:7b-instruct`
-- Evaluation on 10 handcrafted queries with saved `precision@3`, `recall@3`, retrieval latency, generation latency, and answers
+- Evaluation on 10 handcrafted queries with saved `precision@3`, `recall@3`, explicit groundedness assessment, retrieval latency, generation latency, and answers
 
 ### Part 2 — Multi-Tool Agent
 
