@@ -1013,6 +1013,7 @@ class AgentController:
             "If the information is insufficient, say so explicitly.\n\n"
             "Important constraints:\n"
             "- Keep commands, names, and acronym expansions exactly as stated in the information.\n"
+            "- Never invent or guess an acronym expansion. If an acronym such as LLM appears without an explicit expansion in the information, leave it as the acronym.\n"
             "- Do not infer missing text from truncated fragments when a complete version is available.\n"
             "- Do not transfer properties from one method to another.\n"
             "- Keep chain-of-thought prompting distinct from self-consistency sampling.\n"
